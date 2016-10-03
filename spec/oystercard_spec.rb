@@ -2,6 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
 
+  it { is_expected.to respond_to(:touch_in) }
+
   describe "#balance" do
     it 'should check if balance is 0' do
       expect( subject.balance ).to eq(0)
@@ -21,4 +23,39 @@ describe Oystercard do
       expect{ subject.top_up 1 }.to raise_error("Balance limit of #{max_balance} exceeded")
     end
   end
+
+  describe '#deduct' do
+    it { is_expected.to respond_to(:deduct).with(1).argument }
+
+    it 'should deduct an amount from the balance' do
+      subject.top_up(20)
+      expect{ subject.deduct 4 }.to change { subject.balance }.by -4
+    end
+
+  end
+
+  describe '#touch_in' do
+
+    it 'should change the status of journey to true' do
+      subject.touch_in
+      expect(subject.journey).to be true
+    end
+  end
+
+  describe '#touch_out' do
+
+    it 'should change the status of journey to false' do
+      subject.touch_out
+      expect(subject.journey).to be false
+    end
+  end
+
+
+  describe '#in_journey?' do
+    it 'should report whether the user is traveling' do
+      subject.touch_in
+      expect(subject).to be_in_journey
+    end
+  end
+
 end
