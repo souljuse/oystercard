@@ -26,4 +26,8 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
+<<<<<<< HEAD
    1.13.2
+=======
+   1.13.1
+>>>>>>> ffcd743d2f6b76de372af982e8052d6f212456e7
