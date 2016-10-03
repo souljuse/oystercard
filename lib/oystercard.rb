@@ -8,8 +8,8 @@ class Oystercard
   end
 
   def top_up(value)
-    fail "Balance limit of #{BALANCE_LIMIT} exceeded" if balance + value > BALANCE_LIMIT
-    balance += value
+    fail "Balance limit of #{BALANCE_LIMIT} exceeded" if @balance + value > BALANCE_LIMIT
+    @balance += value
   end
 
 end
