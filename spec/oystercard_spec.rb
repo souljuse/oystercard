@@ -32,6 +32,12 @@ describe Oystercard do
       expect{ subject.deduct 4 }.to change { subject.balance }.by -4
     end
 
+    it "deduct the due amount from my oystercard on touch out" do
+      subject.top_up(20)
+      subject.touch_in
+      expect{ subject.touch_out }.to change{ subject.balance }.by described_class::MINIMUM_FARE
+    end
+
   end
 
   describe '#touch_in' do
