@@ -36,12 +36,6 @@ describe Oystercard do
     #   expect{ subject.deduct 4 }.to change { subject.balance }.by -4
     # end
 
-    it "deduct the due amount from my oystercard on touch out" do
-      subject.top_up(20)
-      subject.touch_in(station)
-      expect{ subject.touch_out(destination) }.to change{ subject.balance }.by -(described_class::MINIMUM_FARE)
-    end
-
   end
 
   describe '#touch_in' do
@@ -102,6 +96,26 @@ describe Oystercard do
   describe "#travel_history" do
     it "should return an empty array when initialized" do
       expect( subject.travel_history ).to be_empty
+    end
+  end
+
+  describe "#fare" do
+    before do
+      subject.top_up(20)
+    end
+
+    it "should charge the MINIMUM_FARE" do
+      subject.touch_in(station)
+      expect{ subject.touch_out(destination) }.to change{ subject.balance }.by -(described_class::MINIMUM_FARE)
+    end
+
+    it "should charge a penalty fare if the user did not touch in" do
+      expect{ subject.touch_out(destination) }.to change{ subject.balance }.by -(described_class::PENALTY_FARE)
+    end
+
+    it "should charge a penalty fare if the user did not touch out" do
+      subject.touch_in(station)
+      expect{ subject.touch_in(station) }.to change{ subject.balance }.by -(described_class::PENALTY_FARE)
     end
   end
 
