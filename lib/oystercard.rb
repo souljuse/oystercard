@@ -21,8 +21,8 @@ class Oystercard
   def touch_in(station)
     fail "Not enough credit" if balance < MINIMUM_FARE
     if in_journey?
-    @travel_history << { in: @entry_station, out: nil }
-    deduct(fare)
+      @travel_history << { in: @entry_station, out: nil }
+      deduct(fare)
     end
     @entry_station = station
   end
