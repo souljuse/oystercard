@@ -38,27 +38,37 @@ describe Oystercard do
     end
   end
 
-  describe '#touch_in' do
-    it { is_expected.to respond_to(:touch_in) }
-
-    it 'can touch in' do
-      subject.touch_in
-      expect(subject).to be_in_journey
+  context 'when touch in and touch out' do
+    before do
+      subject.top_up(Oystercard::MAXIMUM_BALANCE)
     end
 
-    it 'will not touch in if below minimum balance' do
-      # allow(subject).to receive(:balance) { 0 }
-      expect { subject.touch_in }.to raise_error "Insufficent balance to touch in"
+    describe '#touch_in' do
+      it { is_expected.to respond_to(:touch_in) }
+
+      it 'can touch in' do
+        subject.touch_in
+        expect(subject).to be_in_journey
+      end
+
+      it 'will not touch in if below minimum balance' do
+        allow(subject).to receive(:balance) { 0 }
+        expect { subject.touch_in }.to raise_error "Insufficent balance to touch in"
+      end
     end
-  end
 
-  describe '#touch_out' do
-    it { is_expected.to respond_to(:touch_out) }
+    describe '#touch_out' do
+      it { is_expected.to respond_to(:touch_out) }
 
-    it 'can touch out' do
-      subject.touch_in
-      subject.touch_out
-      expect(subject).not_to be_in_journey
+      it 'can touch out' do
+        subject.touch_in
+        subject.touch_out
+        expect(subject).not_to be_in_journey
+      end
+
+      it 'should deduct amount' do
+        expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::MINIMUM_BALANCE)
+      end
     end
   end
 end
