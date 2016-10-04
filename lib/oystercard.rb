@@ -1,8 +1,11 @@
+require_relative 'station'
+
 class Oystercard
   attr_reader :balance, :journey, :entry_station, :travel_history
 
   BALANCE_LIMIT = 90
   MINIMUM_FARE = 1
+  PENALTY_FARE = 6
 
   def initialize
     @balance = 0
@@ -17,12 +20,16 @@ class Oystercard
 
   def touch_in(station)
     fail "Not enough credit" if balance < MINIMUM_FARE
+    if in_journey?
+    @travel_history << { in: @entry_station, out: nil }
+    deduct(fare)
+    end
     @entry_station = station
   end
 
   def touch_out(station)
-    deduct(MINIMUM_FARE)
     @travel_history << { in: @entry_station, out: station }
+    deduct(fare)
     @entry_station = nil
   end
 
@@ -31,6 +38,14 @@ class Oystercard
   end
 
   private
+
+  def fare
+    if !@travel_history.empty? && @travel_history.last[:in] == nil || @travel_history.last[:out] == nil
+      PENALTY_FARE
+    else
+      MINIMUM_FARE
+    end
+  end
 
   def deduct(value)
    @balance -= value
