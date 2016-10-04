@@ -25,17 +25,17 @@ describe Oystercard do
   end
 
   describe '#deduct' do
-    it { is_expected.to respond_to(:deduct).with(1).argument }
+    # it { is_expected.to respond_to(:deduct).with(1).argument }
 
-    it 'should deduct an amount from the balance' do
-      subject.top_up(20)
-      expect{ subject.deduct 4 }.to change { subject.balance }.by -4
-    end
+    # it 'should deduct an amount from the balance' do
+    #   subject.top_up(20)
+    #   expect{ subject.deduct 4 }.to change { subject.balance }.by -4
+    # end
 
     it "deduct the due amount from my oystercard on touch out" do
       subject.top_up(20)
       subject.touch_in
-      expect{ subject.touch_out }.to change{ subject.balance }.by described_class::MINIMUM_FARE
+      expect{ subject.touch_out }.to change{ subject.balance }.by -(described_class::MINIMUM_FARE)
     end
 
   end
