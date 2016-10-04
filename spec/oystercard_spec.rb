@@ -70,4 +70,18 @@ describe Oystercard do
     end
   end
 
+let(:station) { double :station }
+
+  describe '#entry_station' do
+    it 'records entry_station on touch_in' do
+      subject.touch_in(station)
+      expect(subject.entry_station).to eq station
+    end
+
+    it 'forgets entry_station on touch_out' do
+      subject.touch_in(station)
+      subject.touch_out
+      expect(subject.entry_station).to be_nil
+    end
+  end
 end
