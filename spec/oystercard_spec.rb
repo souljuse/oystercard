@@ -61,16 +61,16 @@ describe Oystercard do
       it 'should deduct amount' do
         expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-Oystercard::MINIMUM_BALANCE)
       end
+
+      it 'stores exit station' do
+        subject.touch_in(entry_station)
+        subject.touch_out(exit_station)
+        expect(subject.journeys).to include journey
+      end
     end
 
     it 'has an empty list of journeys by default' do
       expect(subject.journeys).to be_empty
-    end
-
-    it 'stores exit station' do
-      subject.touch_in(entry_station)
-      subject.touch_out(exit_station)
-      expect(subject.journeys).to include journey
     end
   end
 end
