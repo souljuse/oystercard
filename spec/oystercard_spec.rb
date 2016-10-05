@@ -1,7 +1,6 @@
 require 'oystercard'
 
 describe Oystercard do
-  let(:journey){ { in:entry_station, out:exit_station } }
   let(:entry_station) { double :station }
   let(:exit_station) { double :station }
 
@@ -25,12 +24,6 @@ describe Oystercard do
     end
   end
 
-  describe '#in_journey?' do
-    it 'is initially not in a journey' do
-      expect(subject).not_to be_in_journey
-    end
-  end
-
   context 'when touch in and touch out' do
     before do
       subject.top_up(Oystercard::MAXIMUM_BALANCE)
@@ -46,11 +39,6 @@ describe Oystercard do
         allow(subject).to receive(:balance) { 0 }
         expect { subject.touch_in(entry_station) }.to raise_error "Insufficent balance to touch in"
       end
-
-      it 'stores the entry station' do
-        subject.touch_in(entry_station)
-        expect(subject.entry_station).to eq entry_station
-      end
     end
 
     describe '#touch_out' do
@@ -63,16 +51,6 @@ describe Oystercard do
       it 'should deduct amount' do
         expect { subject.touch_out(exit_station) }.to change { subject.balance }.by(-Oystercard::MINIMUM_BALANCE)
       end
-
-      it 'stores exit station' do
-        subject.touch_in(entry_station)
-        subject.touch_out(exit_station)
-        expect(subject.journeys).to include journey
-      end
-    end
-
-    it 'has an empty list of journeys by default' do
-      expect(subject.journeys).to be_empty
     end
   end
 end
