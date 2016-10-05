@@ -1,7 +1,9 @@
 require 'oystercard'
 
 describe Oystercard do
-  let(:journey){ { in: entry_station, out: exit_station } }
+  let(:journey){ { in:entry_station, out:exit_station } }
+  let(:entry_station) { double :station }
+  let(:exit_station) { double :station }
 
   it 'has a balance of zero' do
     expect(subject.balance).to eq(0)
@@ -47,7 +49,7 @@ describe Oystercard do
 
       it 'stores the entry station' do
         subject.touch_in(entry_station)
-        expect(subject.entry_station).to eq station
+        expect(subject.entry_station).to eq entry_station
       end
     end
 
