@@ -10,9 +10,7 @@ class Journey
     @complete = false
     @fare = PENALTY_FARE
   end
-      # @journeys << { in: @entry_station, out: @exit_station }
-      # @entry_station = nil
-
+  
   def finish(station)
     @complete = true
     @fare = MINIMUM_BALANCE
