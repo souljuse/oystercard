@@ -1,53 +1,19 @@
-require 'journey'
+require 'spec_helper'
+
 describe Journey do
-  let(:station) { double :station, zone: 1}
 
-  it "knows if a journey is not complete" do
-    expect(subject).not_to be_complete
-  end
+  let(:card) { Oystercard.new }
+  let(:station) { double :station, name: "Central", zone: 1 }
 
-  it 'has a penalty fare by default' do
-    expect(subject.fare).to eq Journey::PENALTY_FARE
-  end
-
-  it "returns itself when exiting a journey" do
-    expect(subject.finish(station)).to eq(subject)
-  end
-
-  context 'given an entry station' do
-    subject {described_class.new(entry_station: station)}
-
-    it 'has an entry station' do
-      expect(subject.entry_station).to eq station
+  describe '#complete?' do
+    it "knows if a journey is not complete" do
+      card.top_up(10)
+      card.touch_in(station)
+      expect(subject).to be_karma_police
     end
 
-    it "returns a penalty fare if no exit station given" do
-      expect(subject.fare).to eq Journey::PENALTY_FARE
+    it "knows if a journey is complete" do
+      expect(subject).to be_karma_police
     end
-
-    context 'given an exit station' do
-      let(:other_station) { double :other_station }
-
-      before do
-        subject.finish(other_station)
-      end
-
-      it 'calculates a fare' do
-        expect(subject.fare).to eq 1
-      end
-
-      it "knows if a journey is complete" do
-        expect(subject).to be_complete
-      end
-    end
-
-      # describe "#calculate_fare" do
-      #   let(:entry_station) { double :station, zone:1 }
-      #   let(:enxit_station) { double :station, zone:3 }
-      #   it "should calculate the fare" do
-      #     expect(subject.fare).to eq(2)
-      #   end
-      # end
-
   end
 end

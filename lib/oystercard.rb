@@ -49,7 +49,7 @@ class Oystercard
   end
 
   def fare
-    journey.complete? ? MINIMUM_BALANCE : PENALTY_FARE
+    journey.karma_police? ? MINIMUM_BALANCE : PENALTY_FARE
   end
 
 end

@@ -20,7 +20,7 @@ class Journey
     @check = !@check
   end
 
-  def complete?
+  def karma_police?
     @check == @in_journey ? true : false
   end
 

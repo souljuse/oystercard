@@ -1,6 +1,8 @@
-require 'oystercard'
+require 'spec_helper'
 
 describe Oystercard do
+
+  let(:station) { double :station, zone: 1 }
 
   it 'has a balance of zero' do
     expect(subject.balance).to eq(0)
@@ -28,17 +30,17 @@ describe Oystercard do
     end
 
     describe '#touch_in' do
-
       it 'will not touch in if below minimum balance' do
         allow(subject).to receive(:balance) { 0 }
-        expect { subject.touch_in }.to raise_error "Insufficent balance to touch in"
+        expect { subject.touch_in(station) }.to raise_error "Insufficent balance to touch in"
       end
     end
 
     describe '#touch_out' do
 
       it 'should deduct amount' do
-        expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::MINIMUM_BALANCE)
+        subject.touch_in(station)
+        expect { subject.touch_out(station) }.to change { subject.balance }.by(-Oystercard::MINIMUM_BALANCE)
       end
     end
   end

@@ -1,4 +1,4 @@
-require 'journey_log'
+require 'spec_helper'
 
 describe Journeylog do
 
@@ -25,7 +25,7 @@ describe Journeylog do
       expect(subject.journeys).to include([{entry_station: "Central"}, {exit_station: "South"}])
     end
   end
-# 
+#
 #   it 'should add an exit station to the current_journey' do
 #   subject.start("South")
 #   expect(subject.current_journey).to include({entry_station: "South"})
