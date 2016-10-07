@@ -31,6 +31,10 @@ class Oystercard
     journey.check ? deduct(PENALTY_FARE) : deduct(fare)
   end
 
+  def calculate_fare
+    (self.journey_log.entry_station.zone - self.journey_log.exit_station.zone).abs + 1
+  end
+
   private
 
   def deduct(amount)
@@ -49,7 +53,7 @@ class Oystercard
   end
 
   def fare
-    journey.karma_police? ? MINIMUM_BALANCE : PENALTY_FARE
+    journey.karma_police? ? calculate_fare : PENALTY_FARE
   end
 
 end

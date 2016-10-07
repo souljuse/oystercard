@@ -24,8 +24,4 @@ class Journey
     @check == @in_journey ? true : false
   end
 
-  # def
-  #   @entry_station[:zone] - self.fi
-  # end
-
 end

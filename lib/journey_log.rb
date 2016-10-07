@@ -1,16 +1,22 @@
 class Journeylog
 
+  attr_reader :entry_station, :exit_station
+
   def initialize
     @journeys = []
     @current_journey = []
+    @entry_station
+    @exit_station
   end
 
   def start(station)
-    @current_journey << { entry_station: station }
+    @entry_station = station
+    @current_journey << { entry_station: @entry_station }
   end
 
   def finish(station)
-    @current_journey << {exit_station: station}
+    @exit_station = station
+    @current_journey << {exit_station: @exit_station}
     @journeys << @current_journey
     @current_journey = []
   end
