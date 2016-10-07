@@ -11,21 +11,34 @@ class Journeylog
 
   def start(station)
     @entry_station = station
-    @current_journey << { entry_station: @entry_station }
+    register({entry_station: @entry_station})
   end
 
   def finish(station)
     @exit_station = station
-    @current_journey << {exit_station: @exit_station}
-    @journeys << @current_journey
-    @current_journey = []
+    register({exit_station: @exit_station})
+    log
+    reset
   end
 
   def journeys
     @journeys.dup
   end
 
+  def log
+    @journeys << @current_journey
+  end
+
+  def reset
+    @current_journey = []
+  end
+
+  def register(station)
+    @current_journey <<  station
+  end
+
 private
+
   def current_journey
     @current_journey || self.start(station)
   end

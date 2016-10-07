@@ -48,17 +48,17 @@ describe Oystercard do
       let(:station2) { double :station, zone:2 }
       let(:station3) { double :station, zone:3 }
 
-      it "should calculate the right fare" do
+      it "should calculate the right fare for zone 1 to zone 3" do
         subject.touch_in(station1)
         expect{subject.touch_out(station3)}.to change { subject.balance }.by(-3)
       end
 
-      it "should calculate the right fare" do
+      it "should calculate the right fare for zone 3 to zone 2" do
         subject.touch_in(station3)
         expect{subject.touch_out(station2)}.to change { subject.balance }.by(-2)
       end
 
-      it "should calculate the right fare" do
+      it "should calculate the right fare for zone 1 to zone 1" do
         subject.touch_in(station1)
         expect{subject.touch_out(station1)}.to change { subject.balance }.by(-1)
       end
