@@ -1,9 +1,6 @@
-require_relative 'journey'
-
 class Journeylog
 
-  def initialize(journey_class: Journey)
-    @journey_class = journey_class
+  def initialize
     @journeys = []
     @current_journey = []
   end

@@ -1,24 +1,31 @@
 class Journey
 
   MINIMUM_BALANCE = 1
-  PENALTY_FARE = 6
 
-  attr_reader :entry_station, :fare
 
-  def initialize(args = {})
-    @entry_station = args[:entry_station]
-    @complete = false
-    @fare = PENALTY_FARE
+  attr_reader :in_journey, :check
+
+  def initialize
+    @in_journey = false
+    @check = false
   end
-  
-  def finish(station)
-    @complete = true
-    @fare = MINIMUM_BALANCE
-    self
+
+  def start
+    @in_journey = true
+    @check = !@check
+  end
+
+  def finish
+    @in_journey = false
+    @check = !@check
   end
 
   def complete?
-    @complete
+    @check == @in_journey ? true : false
   end
+
+  # def
+  #   @entry_station[:zone] - self.fi
+  # end
 
 end
