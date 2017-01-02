@@ -2,7 +2,6 @@ class Journey
 
   MINIMUM_BALANCE = 1
 
-
   attr_reader :in_journey, :check
 
   def initialize
